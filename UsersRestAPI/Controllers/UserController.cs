@@ -28,5 +28,18 @@ namespace UsersRestAPI.Controllers
 
             return Ok(user);
         }
+
+        [HttpGet("getByLastName")]
+        public IActionResult GetUserByLastName(String lastName)
+        {
+            var user = context.Users.FirstOrDefault(u => u.lastName == lastName);
+
+            if (user == null)
+            {
+                return NotFound($"User with lastname '{id}' was not found.");
+            }
+
+            return Ok(user);
+        }
     }
 }
