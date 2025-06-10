@@ -55,5 +55,46 @@ namespace UsersRestAPI.Controllers
 
             return Ok(user);
         }
+
+        [HttpPost("update")]
+        public IActionResult update(User user)
+        {
+            if (user.id == Guid.Empty)
+            {
+                return BadRequest("User id must be filled.");
+            }
+
+            var dbUser = context.Users.Find(user.id);
+
+            if (dbUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            dbUser.firstName = user.firstName;
+            dbUser.lastName = user.lastName;
+            dbUser.birthDate = user.birthDate;
+            dbUser.gender = user.gender;
+
+            context.SaveChanges();
+
+            return Ok(user);
+        }
+
+        [HttpGet("delete")]
+        public IActionResult delete(Guid id)
+        {
+            var dbUser = context.Users.Find(id);
+
+            if (dbUser == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            context.Users.Remove(dbUser);
+            context.SaveChanges();
+
+            return Ok("User was deleted.");
+        }
     }
 }
