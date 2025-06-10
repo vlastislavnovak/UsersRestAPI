@@ -36,7 +36,7 @@ namespace UsersRestAPI.Controllers
 
             if (user == null)
             {
-                return NotFound($"User with lastname '{id}' was not found.");
+                return NotFound($"User with lastname '{lastName}' was not found.");
             }
 
             return Ok(user);
