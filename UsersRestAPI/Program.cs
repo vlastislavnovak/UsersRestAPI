@@ -16,7 +16,7 @@ namespace UsersRestAPI
             builder.Services.AddDbContext<ApiDbContext>(options =>
                 options.UseMySql(
                     connectionString,
-                    new MariaDbServerVersion(new Version(10, 4, 32)))
+                    ServerVersion.AutoDetect(connectionString))
                 .LogTo(msg => System.Diagnostics.Debug.WriteLine(msg), LogLevel.Information));
 
             // Add services to the container.
