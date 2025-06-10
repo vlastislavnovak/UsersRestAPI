@@ -17,7 +17,7 @@ namespace UsersRestAPI.Controllers
         }
 
         [HttpGet("get")]
-        public IActionResult GetUser(Guid id)
+        public IActionResult get(Guid id)
         {
             var user = context.Users.Find(id);
 
@@ -30,7 +30,7 @@ namespace UsersRestAPI.Controllers
         }
 
         [HttpGet("getByLastName")]
-        public IActionResult GetUserByLastName(String lastName)
+        public IActionResult getByLastName(String lastName)
         {
             var user = context.Users.FirstOrDefault(u => u.lastName == lastName);
 
@@ -41,5 +41,7 @@ namespace UsersRestAPI.Controllers
 
             return Ok(user);
         }
+
+
     }
 }
