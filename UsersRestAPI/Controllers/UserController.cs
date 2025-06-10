@@ -42,6 +42,18 @@ namespace UsersRestAPI.Controllers
             return Ok(user);
         }
 
+        [HttpPost("create")]
+        public IActionResult create(User user)
+        {
+            if (user.id != Guid.Empty)
+            {
+                return BadRequest("User id must not be filled.");
+            }
 
+            context.Users.Add(user);
+            context.SaveChanges();
+
+            return Ok(user);
+        }
     }
 }
