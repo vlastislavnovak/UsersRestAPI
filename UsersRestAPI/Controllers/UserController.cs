@@ -16,7 +16,14 @@ namespace UsersRestAPI.Controllers
             this.context = context;
         }
 
-        [HttpGet("get")]
+        [HttpGet]
+        public IActionResult getAll()
+        {
+            return Ok(context.Users.ToList());
+        }
+
+
+        [HttpGet("{id}")]
         public IActionResult get(Guid id)
         {
             var user = context.Users.Find(id);
@@ -29,21 +36,8 @@ namespace UsersRestAPI.Controllers
             return Ok(user);
         }
 
-        [HttpGet("getByLastName")]
-        public IActionResult getByLastName(String lastName)
-        {
-            var user = context.Users.FirstOrDefault(u => u.lastName == lastName);
-
-            if (user == null)
-            {
-                return NotFound($"User with lastname '{lastName}' was not found.");
-            }
-
-            return Ok(user);
-        }
-
-        [HttpPost("create")]
-        public IActionResult create(User user)
+        [HttpPost]
+        public IActionResult create([FromBody] User user)
         {
             if (user.id != Guid.Empty)
             {
@@ -53,11 +47,11 @@ namespace UsersRestAPI.Controllers
             context.Users.Add(user);
             context.SaveChanges();
 
-            return Ok(user);
+            return CreatedAtAction(nameof(get), new { id = user.id }, user);
         }
 
-        [HttpPost("update")]
-        public IActionResult update(User user)
+        [HttpPut]
+        public IActionResult update([FromBody] User user)
         {
             if (user.id == Guid.Empty)
             {
@@ -81,7 +75,7 @@ namespace UsersRestAPI.Controllers
             return Ok(user);
         }
 
-        [HttpGet("delete")]
+        [HttpDelete("{id}")]
         public IActionResult delete(Guid id)
         {
             var dbUser = context.Users.Find(id);
@@ -94,7 +88,7 @@ namespace UsersRestAPI.Controllers
             context.Users.Remove(dbUser);
             context.SaveChanges();
 
-            return Ok("User was deleted.");
+            return NoContent();
         }
     }
 }
